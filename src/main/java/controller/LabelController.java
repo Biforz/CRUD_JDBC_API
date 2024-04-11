@@ -4,6 +4,8 @@ import model.Label;
 import repository.LabelRepository;
 import repository.jdbc.JdbcLabelRepositoryImpl;
 
+import java.util.List;
+
 public class LabelController {
     private final LabelRepository labelRepository;
 
@@ -11,12 +13,12 @@ public class LabelController {
         this.labelRepository = new JdbcLabelRepositoryImpl();
     }
 
-    public void getAllLabels() {
-        labelRepository.showAll();
+    public List<Label> getAllLabels() {
+        return labelRepository.showAll();
     }
 
-    public void getLabelById(Long id) {
-        labelRepository.showById(id);
+    public Label getLabelById(Long id) {
+        return labelRepository.showById(id);
     }
 
     public void deleteLabelDyId(Long id) {

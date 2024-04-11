@@ -31,15 +31,14 @@ public class JdbcLabelRepositoryImpl implements LabelRepository {
 
     public List<Label> showAll() {
         List<Label> labelList = new ArrayList<>();
+        Label label;
         try (PreparedStatement preparedStatement = connection.prepareStatement(SHOW_ALL_LABELS)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                long id = resultSet.getLong(1);
-                String name = resultSet.getString(2);
-
-                System.out.println("id: " + id);
-                System.out.println("name: " + name);
-                System.out.println("----------------------------");
+                label = new Label();
+                label.setId(resultSet.getLong(1));
+                label.setName(resultSet.getString(2));
+                labelList.add(label);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -58,13 +57,6 @@ public class JdbcLabelRepositoryImpl implements LabelRepository {
 
             label.setId(resultSet.getLong("id"));
             label.setName(resultSet.getString("name"));
-
-            long idLabel = resultSet.getLong("id");
-            String name = resultSet.getString("name");
-
-            System.out.println("id: " + idLabel);
-            System.out.println("name: " + name);
-
         } catch (SQLException e) {
             e.printStackTrace();
         }

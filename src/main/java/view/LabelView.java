@@ -3,6 +3,7 @@ package view;
 import controller.LabelController;
 import model.Label;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class LabelView {
@@ -44,13 +45,16 @@ public class LabelView {
     }
 
     public void findAllLabel() {
-        labelController.getAllLabels();
+        List<Label> labels = labelController.getAllLabels();
+        for (Label label : labels) {
+            System.out.println(label);
+        }
     }
 
     public void findLabelById() {
         System.out.print("Введите id для поиска: ");
         long id = scanner.nextLong();
-        labelController.getLabelById(id);
+        System.out.println(labelController.getLabelById(id));
     }
 
     public void addNewLabel() {
