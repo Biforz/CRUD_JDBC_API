@@ -16,10 +16,6 @@ public class JdbcLabelRepositoryImpl implements LabelRepository {
     private static final String UPDATE_LABEL = "UPDATE label SET name = ? WHERE id = ?";
     private static final String DELETE_LABEL_BY_ID = "DELETE FROM label WHERE id = ?";
 
-    private static final String URL = "jdbc:mysql://localhost:3306/vats";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "root";
-
     public List<Label> showAll() {
         List<Label> labelList = new ArrayList<>();
         Label label;
