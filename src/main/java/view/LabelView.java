@@ -15,35 +15,6 @@ public class LabelView {
         this.labelController = new LabelController();
     }
 
-    public void startMenuLabel() {
-        System.out.print("Доступные действия: " +
-                "\n1 - Показать всех Labels\n2 - Найти Label по id\n3 - Добавить новый Label в таблицу" +
-                "\n4 - Редактировать Label\n5 - Удалить Label по id" +
-                "\nВведите ваш выбор: ");
-        int inputNumber = scanner.nextInt();
-        scanner.nextLine();
-
-        switch (inputNumber) {
-            case 1:
-                findAllLabel();
-                break;
-            case 2:
-                findLabelById();
-                break;
-            case 3:
-                addNewLabel();
-                break;
-            case 4:
-                updateLabel();
-                break;
-            case 5:
-                deleteLabelById();
-                break;
-            default:
-                System.out.println("Неверный ввод");
-        }
-    }
-
     public void findAllLabel() {
         List<Label> labels = labelController.getAllLabels();
         for (Label label : labels) {

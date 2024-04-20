@@ -1,4 +1,4 @@
-package model;
+package model.status;
 
 public enum PostStatus {
     ACTIVE,

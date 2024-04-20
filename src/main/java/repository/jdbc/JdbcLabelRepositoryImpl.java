@@ -12,7 +12,7 @@ import static config.ConfigDataBase.connection;
 public class JdbcLabelRepositoryImpl implements LabelRepository {
     private static final String SHOW_ALL_LABELS = "SELECT * FROM label";
     private static final String SHOW_LABEL_BY_ID = "SELECT * FROM label WHERE id = ?";
-    private static final String ADD_LABEL = "INSERT INTO label(name) VALUES(?)";
+    private static final String ADD_LABEL = "INSERT INTO label(name) VALUES (?)";
     private static final String UPDATE_LABEL = "UPDATE label SET name = ? WHERE id = ?";
     private static final String DELETE_LABEL_BY_ID = "DELETE FROM label WHERE id = ?";
 
@@ -38,10 +38,8 @@ public class JdbcLabelRepositoryImpl implements LabelRepository {
         try (PreparedStatement preparedStatement = connection().prepareStatement(SHOW_LABEL_BY_ID)) {
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-
             resultSet.next();
             label = new Label();
-
             label.setId(resultSet.getLong("id"));
             label.setName(resultSet.getString("name"));
         } catch (SQLException e) {
