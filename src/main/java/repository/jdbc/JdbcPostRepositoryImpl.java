@@ -48,7 +48,7 @@ public class JdbcPostRepositoryImpl implements PostRepository {
                 post.setCreated(resultSet.getTimestamp(3).toLocalDateTime());
                 post.setUpdated(resultSet.getTimestamp(4).toLocalDateTime());
                 post.setPostStatus(PostStatus.valueOf(resultSet.getString(5)));
-                post.setLabelList(showListLabelOnPost(post.getId()));
+                post.setLabels(showListLabelOnPost(post.getId()));
                 postList.add(post);
             }
         } catch (SQLException e) {
@@ -68,7 +68,7 @@ public class JdbcPostRepositoryImpl implements PostRepository {
             post.setCreated(resultSet.getTimestamp(3).toLocalDateTime());
             post.setUpdated(resultSet.getTimestamp(4).toLocalDateTime());
             post.setPostStatus(PostStatus.valueOf(resultSet.getString(5)));
-            post.setLabelList(showListLabelOnPost(post.getId()));
+            post.setLabels(showListLabelOnPost(post.getId()));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -82,7 +82,7 @@ public class JdbcPostRepositoryImpl implements PostRepository {
             preparedStatement.setTimestamp(3, new Timestamp(new Date().getTime()));
             preparedStatement.setString(4, post.getPostStatus().name());
             preparedStatement.executeUpdate();
-            addIdLabelInPost(post.getId(), post.getLabelList());
+            addIdLabelInPost(post.getId(), post.getLabels());
         } catch (SQLException e) {
             e.printStackTrace();
         }

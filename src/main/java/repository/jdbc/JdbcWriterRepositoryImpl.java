@@ -122,7 +122,7 @@ public class JdbcWriterRepositoryImpl implements WriterRepository {
                 post.setCreated(resultSet.getTimestamp(3).toLocalDateTime());
                 post.setUpdated(resultSet.getTimestamp(4).toLocalDateTime());
                 post.setPostStatus(PostStatus.valueOf(resultSet.getString(5)));
-                post.setLabelList(showListLabelOnPost(post.getId()));
+                post.setLabels(showListLabelOnPost(post.getId()));
                 postList.add(post);
             }
         } catch (SQLException e) {

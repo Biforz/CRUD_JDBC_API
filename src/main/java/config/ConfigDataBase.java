@@ -1,12 +1,10 @@
 package config;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.Properties;
 
 
@@ -26,12 +24,9 @@ public class ConfigDataBase {
 
                 Class.forName(driver);
                 connectionDB = DriverManager.getConnection(url, username, password);
-            } catch (SQLException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+                System.exit(1);
             }
         }
         return connectionDB;

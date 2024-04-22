@@ -17,5 +17,5 @@ public class Post {
     private LocalDateTime created;
     private LocalDateTime updated;
     private PostStatus postStatus;
-    private List<Label> labelList;
+    private List<Label> labels;
 }
