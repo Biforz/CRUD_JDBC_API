@@ -1,35 +1,34 @@
 package controller;
 
 import model.Writer;
-import repository.WriterRepository;
-import repository.jdbc.JdbcWriterRepositoryImpl;
+import service.WriterService;
 
 import java.util.List;
 
 public class WriterController {
-    private final WriterRepository writerRepository;
+    private final WriterService writerService;
 
     public WriterController() {
-        this.writerRepository = new JdbcWriterRepositoryImpl();
+        this.writerService = new WriterService();
     }
 
     public List<Writer> getAllWriter() {
-        return writerRepository.showAll();
+        return writerService.getAllWriter();
     }
 
     public Writer getWriterById(Long id) {
-        return writerRepository.showById(id);
+        return writerService.getWriterById(id);
     }
 
     public void addNewWriter(Writer writer) {
-        writerRepository.add(writer);
+        writerService.addNewWriter(writer);
     }
 
     public void updateWriter(Long id, Writer writer) {
-        writerRepository.update(id, writer);
+        writerService.updateWriter(id, writer);
     }
 
     public void deleteWriterById(Long id) {
-        writerRepository.deleteById(id);
+        writerService.deleteWriterById(id);
     }
 }

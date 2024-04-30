@@ -1,35 +1,34 @@
 package controller;
 
 import model.Label;
-import repository.LabelRepository;
-import repository.jdbc.JdbcLabelRepositoryImpl;
+import service.LabelService;
 
 import java.util.List;
 
 public class LabelController {
-    private final LabelRepository labelRepository;
+    private final LabelService labelService;
 
     public LabelController() {
-        this.labelRepository = new JdbcLabelRepositoryImpl();
+        this.labelService = new LabelService();
     }
 
     public List<Label> getAllLabels() {
-        return labelRepository.showAll();
+        return labelService.getAllLabels();
     }
 
     public Label getLabelById(Long id) {
-        return labelRepository.showById(id);
+        return labelService.getLabelById(id);
     }
 
     public void deleteLabelDyId(Long id) {
-        labelRepository.deleteById(id);
+        labelService.deleteLabelDyId(id);
     }
 
     public void addLabel(Label label) {
-        labelRepository.add(label);
+        labelService.addLabel(label);
     }
 
     public void updateLabel(Long id, Label label) {
-        labelRepository.update(id, label);
+        labelService.updateLabel(id, label);
     }
 }
