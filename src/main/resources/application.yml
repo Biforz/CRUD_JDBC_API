@@ -1,8 +1,0 @@
-datasource:
-  driver-class-name: com.mysql.cj.jdbc.Driver
-  url: jdbc:mysql://localhost:3306/vats
-  username: root
-  password: root
-
-liquibase:
-  change-log: src/main/resources/db/changelog/db.changelog-master.xml
