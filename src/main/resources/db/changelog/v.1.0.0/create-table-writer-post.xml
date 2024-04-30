@@ -10,8 +10,8 @@
             <column name="writer_id" type="int">
                 <constraints foreignKeyName="writer_id" references="writer(id)"/>
             </column>
-            <column name="post_id" type="int">
-                <constraints foreignKeyName="post_id" references="post(id)"/>
+            <column name="posts_id" type="int">
+                <constraints foreignKeyName="posts_id" references="post(id)"/>
             </column>
         </createTable>
     </changeSet>
