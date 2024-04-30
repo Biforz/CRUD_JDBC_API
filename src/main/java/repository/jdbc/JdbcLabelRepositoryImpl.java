@@ -1,13 +1,13 @@
 package repository.jdbc;
 
+import config.ConfigDataBase;
 import model.Label;
 import repository.LabelRepository;
+import util.LabelMapper;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import static config.ConfigDataBase.connection;
 
 public class JdbcLabelRepositoryImpl implements LabelRepository {
     private static final String SHOW_ALL_LABELS = "SELECT * FROM label";
@@ -18,14 +18,12 @@ public class JdbcLabelRepositoryImpl implements LabelRepository {
 
     public List<Label> showAll() {
         List<Label> labelList = new ArrayList<>();
-        Label label;
-        try (PreparedStatement preparedStatement = connection().prepareStatement(SHOW_ALL_LABELS)) {
+
+        try (PreparedStatement preparedStatement = ConfigDataBase.preparedStatement(SHOW_ALL_LABELS)) {
             ResultSet resultSet = preparedStatement.executeQuery();
+
             while (resultSet.next()) {
-                label = new Label();
-                label.setId(resultSet.getLong(1));
-                label.setName(resultSet.getString(2));
-                labelList.add(label);
+                labelList.add(LabelMapper.mappingLabel(resultSet));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -35,13 +33,12 @@ public class JdbcLabelRepositoryImpl implements LabelRepository {
 
     public Label showById(Long id) {
         Label label = null;
-        try (PreparedStatement preparedStatement = connection().prepareStatement(SHOW_LABEL_BY_ID)) {
+        try (PreparedStatement preparedStatement = ConfigDataBase.preparedStatement(SHOW_LABEL_BY_ID)) {
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
-            label = new Label();
-            label.setId(resultSet.getLong("id"));
-            label.setName(resultSet.getString("name"));
+            label = LabelMapper.mappingLabel(resultSet);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -49,7 +46,7 @@ public class JdbcLabelRepositoryImpl implements LabelRepository {
     }
 
     public Label add(Label label) {
-        try (PreparedStatement preparedStatement = connection().prepareStatement(ADD_LABEL)) {
+        try (PreparedStatement preparedStatement = ConfigDataBase.preparedStatement(ADD_LABEL)) {
             preparedStatement.setString(1, label.getName());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -59,7 +56,7 @@ public class JdbcLabelRepositoryImpl implements LabelRepository {
     }
 
     public Label update(Long id, Label label) {
-        try (PreparedStatement preparedStatement = connection().prepareStatement(UPDATE_LABEL)) {
+        try (PreparedStatement preparedStatement = ConfigDataBase.preparedStatement(UPDATE_LABEL)) {
             preparedStatement.setString(1, label.getName());
             preparedStatement.setLong(2, id);
             preparedStatement.executeUpdate();
@@ -70,7 +67,7 @@ public class JdbcLabelRepositoryImpl implements LabelRepository {
     }
 
     public void deleteById(Long id) {
-        try (PreparedStatement preparedStatement = connection().prepareStatement(DELETE_LABEL_BY_ID)) {
+        try (PreparedStatement preparedStatement = ConfigDataBase.preparedStatement(DELETE_LABEL_BY_ID)) {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

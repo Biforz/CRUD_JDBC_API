@@ -2,8 +2,9 @@ package repository.jdbc;
 
 import model.Post;
 import model.Writer;
-import model.status.PostStatus;
 import repository.WriterRepository;
+import util.PostMapper;
+import util.WriterMapper;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,12 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static config.ConfigDataBase.connection;
-import static util.DButil.showListLabelOnPost;
 
 public class JdbcWriterRepositoryImpl implements WriterRepository {
     private static final String FIND_POST_ON_WRITER =
             "SELECT * FROM post p " +
-                    "LEFT JOIN writer_post wp ON p.id = wp.post_id " +
+                    "LEFT JOIN writer_post wp ON p.id = wp.posts_id " +
                     "LEFT JOIN label_post lp ON p.id = lp.post_id " +
                     "LEFT JOIN label l ON l.id = lp.label_id " +
                     "WHERE wp.writer_id = ?";
@@ -26,7 +26,7 @@ public class JdbcWriterRepositoryImpl implements WriterRepository {
                     "p.id, p.content, p.created, p.updated, p.status, l.id, l.name " +
                     "FROM writer w " +
                     "LEFT JOIN writer_post wp on w.id = wp.writer_id " +
-                    "LEFT JOIN post p on wp.post_id = p.id " +
+                    "LEFT JOIN post p on wp.posts_id = p.id " +
                     "LEFT JOIN label_post lp on p.id = lp.post_id " +
                     "LEFT JOIN label l on lp.label_id = l.id";
     private static final String FIND_WRITER_BY_ID =
@@ -34,7 +34,7 @@ public class JdbcWriterRepositoryImpl implements WriterRepository {
                     "p.id, p.content, p.created, p.updated, p.status, l.id, l.name " +
                     "FROM writer w " +
                     "LEFT JOIN writer_post wp on w.id = wp.writer_id " +
-                    "LEFT JOIN post p on wp.post_id = p.id " +
+                    "LEFT JOIN post p on wp.posts_id = p.id " +
                     "LEFT JOIN label_post lp on p.id = lp.post_id " +
                     "LEFT JOIN label l on lp.label_id = l.id " +
                     "WHERE w.id = ?";
@@ -48,10 +48,7 @@ public class JdbcWriterRepositoryImpl implements WriterRepository {
         try (PreparedStatement preparedStatement = connection().prepareStatement(SHOW_ALL_WRITER_ON_POST_ON_LABEL)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                writer = new Writer();
-                writer.setId(resultSet.getLong(1));
-                writer.setFirstName(resultSet.getString(2));
-                writer.setLastName(resultSet.getString(3));
+                writer = WriterMapper.mappingWriter(resultSet);
                 writer.setPosts(showListPostAndLabelInWriter(writer.getId()));
                 writerList.add(writer);
             }
@@ -67,9 +64,7 @@ public class JdbcWriterRepositoryImpl implements WriterRepository {
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
-            writer.setId(resultSet.getLong(1));
-            writer.setFirstName(resultSet.getString(2));
-            writer.setLastName(resultSet.getString(3));
+            writer = WriterMapper.mappingWriter(resultSet);
             writer.setPosts(showListPostAndLabelInWriter(writer.getId()));
         } catch (SQLException e) {
             e.printStackTrace();
@@ -109,21 +104,13 @@ public class JdbcWriterRepositoryImpl implements WriterRepository {
         }
     }
 
-    public List<Post> showListPostAndLabelInWriter(Long id) {
+    private List<Post> showListPostAndLabelInWriter(Long id) {
         List<Post> postList = new ArrayList<>();
-        Post post;
         try (PreparedStatement preparedStatement = connection().prepareStatement(FIND_POST_ON_WRITER)) {
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                post = new Post();
-                post.setId(resultSet.getLong(1));
-                post.setContent(resultSet.getString(2));
-                post.setCreated(resultSet.getTimestamp(3).toLocalDateTime());
-                post.setUpdated(resultSet.getTimestamp(4).toLocalDateTime());
-                post.setPostStatus(PostStatus.valueOf(resultSet.getString(5)));
-                post.setLabels(showListLabelOnPost(post.getId()));
-                postList.add(post);
+                postList.add(PostMapper.mappingPost(resultSet));
             }
         } catch (SQLException e) {
             e.printStackTrace();
