@@ -62,11 +62,11 @@ create table if not exists writer_post
 (
     writer_id int,
     foreign key (writer_id) references writer (id),
-    post_id int,
-    foreign key (post_id) references post (id)
+    posts_id int,
+    foreign key (posts_id) references post (id)
 );
 
-insert into writer_post(writer_id, post_id) VALUE (1, 1);
-insert into writer_post(writer_id, post_id) VALUE (2, 2);
-insert into writer_post(writer_id, post_id) VALUE (3, 3);
-insert into writer_post(writer_id, post_id) VALUE (4, 4);
+insert into writer_post(writer_id, posts_id) VALUE (1, 1);
+insert into writer_post(writer_id, posts_id) VALUE (2, 2);
+insert into writer_post(writer_id, posts_id) VALUE (3, 3);
+insert into writer_post(writer_id, posts_id) VALUE (4, 4);
