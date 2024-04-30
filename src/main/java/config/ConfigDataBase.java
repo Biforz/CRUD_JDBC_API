@@ -5,6 +5,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Properties;
 
 
@@ -21,7 +23,6 @@ public class ConfigDataBase {
                 String username = properties.getProperty("username");
                 String password = properties.getProperty("password");
                 String driver = properties.getProperty("driver");
-
                 Class.forName(driver);
                 connectionDB = DriverManager.getConnection(url, username, password);
             } catch (Exception e) {
@@ -30,5 +31,9 @@ public class ConfigDataBase {
             }
         }
         return connectionDB;
+    }
+
+    public static PreparedStatement preparedStatement(String sql) throws SQLException {
+        return connection().prepareStatement(sql);
     }
 }
