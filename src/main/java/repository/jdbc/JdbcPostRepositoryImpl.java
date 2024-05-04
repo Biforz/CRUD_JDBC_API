@@ -34,7 +34,6 @@ public class JdbcPostRepositoryImpl implements PostRepository {
     private static final String UPDATE_POST_BY_ID =
             "UPDATE post SET content = ?, updated = ?, status = ? WHERE id = ?";
     private static final String DELETE_POST_BY_ID = "UPDATE post SET status = ? WHERE id = ?";
-//    private static final String ADD_LABEL_IN_POST = "INSERT INTO label_post(post_id, label_id) VALUES (?, ?)";
 
     public List<Post> showAll() {
         List<Post> postList = new ArrayList<>();
@@ -73,7 +72,6 @@ public class JdbcPostRepositoryImpl implements PostRepository {
             preparedStatement.setTimestamp(3, new Timestamp(new Date().getTime()));
             preparedStatement.setString(4, post.getPostStatus().name());
             preparedStatement.executeUpdate();
-//            addIdLabelInPost(post.getId(), post.getLabels());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -105,24 +103,6 @@ public class JdbcPostRepositoryImpl implements PostRepository {
             e.printStackTrace();
         }
     }
-
-//    private void addIdLabelInPost(Long id, List<Label> labelList) {
-//        if (labelList == null) {
-//            return;
-//        }
-//
-//        try (PreparedStatement preparedStatement = ConfigDataBase.preparedStatement(ADD_LABEL_IN_POST)) {
-//            for (Label label : labelList) {
-//                if (label.getId() != null) {
-//                    preparedStatement.setLong(1, id);
-//                    preparedStatement.setLong(2, label.getId());
-//                }
-//            }
-//            preparedStatement.executeUpdate();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
 
     private List<Label> showListLabelOnPost(Long id) {
         List<Label> labelList = new ArrayList<>();
