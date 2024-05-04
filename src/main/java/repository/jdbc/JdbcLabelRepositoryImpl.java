@@ -36,9 +36,11 @@ public class JdbcLabelRepositoryImpl implements LabelRepository {
         try (PreparedStatement preparedStatement = ConfigDataBase.preparedStatement(SHOW_LABEL_BY_ID)) {
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            label = LabelMapper.mappingLabel(resultSet);
-
+            if(resultSet.next()) {
+                label = LabelMapper.mappingLabel(resultSet);
+            } else {
+                throw new IllegalArgumentException("Такого id нет");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
