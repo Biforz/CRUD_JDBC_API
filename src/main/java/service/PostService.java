@@ -1,17 +1,20 @@
 package service;
 
+import lombok.RequiredArgsConstructor;
 import model.Post;
 import repository.PostRepository;
 import repository.jdbc.JdbcPostRepositoryImpl;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 public class PostService {
     private final PostRepository postRepository;
 
     public PostService() {
         this.postRepository = new JdbcPostRepositoryImpl();
     }
+
     public List<Post> getAllPosts() {
         return postRepository.showAll();
     }
@@ -20,12 +23,12 @@ public class PostService {
         return postRepository.showById(id);
     }
 
-    public void addPost(Post post) {
-        postRepository.add(post);
+    public Post addPost(Post post) {
+        return postRepository.add(post);
     }
 
-    public void updatePost(Long id, Post post) {
-        postRepository.update(id, post);
+    public Post updatePost(Long id, Post post) {
+        return postRepository.update(id, post);
     }
 
     public void deletePost(Long id) {

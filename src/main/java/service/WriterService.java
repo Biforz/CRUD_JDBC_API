@@ -1,11 +1,13 @@
 package service;
 
+import lombok.RequiredArgsConstructor;
 import model.Writer;
 import repository.WriterRepository;
 import repository.jdbc.JdbcWriterRepositoryImpl;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 public class WriterService {
     private final WriterRepository writerRepository;
 
@@ -21,12 +23,12 @@ public class WriterService {
         return writerRepository.showById(id);
     }
 
-    public void addNewWriter(Writer writer) {
-        writerRepository.add(writer);
+    public Writer addNewWriter(Writer writer) {
+        return writerRepository.add(writer);
     }
 
-    public void updateWriter(Long id, Writer writer) {
-        writerRepository.update(id, writer);
+    public Writer updateWriter(Long id, Writer writer) {
+        return writerRepository.update(id, writer);
     }
 
     public void deleteWriterById(Long id) {

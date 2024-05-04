@@ -1,11 +1,13 @@
 package service;
 
+import lombok.RequiredArgsConstructor;
 import model.Label;
 import repository.LabelRepository;
 import repository.jdbc.JdbcLabelRepositoryImpl;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 public class LabelService {
     private final LabelRepository labelRepository;
 
@@ -25,11 +27,11 @@ public class LabelService {
         labelRepository.deleteById(id);
     }
 
-    public void addLabel(Label label) {
-        labelRepository.add(label);
+    public Label addLabel(Label label) {
+        return labelRepository.add(label);
     }
 
-    public void updateLabel(Long id, Label label) {
-        labelRepository.update(id, label);
+    public Label updateLabel(Long id, Label label) {
+        return labelRepository.update(id, label);
     }
 }
