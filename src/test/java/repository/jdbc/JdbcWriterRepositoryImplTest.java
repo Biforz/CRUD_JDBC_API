@@ -12,7 +12,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class JdbcWriterRepositoryImplTest {
     private final WriterRepository writerRepository = Mockito.mock(WriterRepository.class);
@@ -82,5 +82,7 @@ public class JdbcWriterRepositoryImplTest {
 
     @Test
     void deleteById() {
+        writerService.deleteWriterById(1L);
+        verify(writerRepository, times(1)).deleteById(1L);
     }
 }

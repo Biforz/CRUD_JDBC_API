@@ -78,5 +78,7 @@ public class JdbcLabelRepositoryImplTest {
 
     @Test
     void deleteById() {
+        labelService.deleteLabelDyId(1L);
+        verify(labelRepository, times(1)).deleteById(1L);
     }
 }

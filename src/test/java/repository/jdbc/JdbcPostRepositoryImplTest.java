@@ -14,7 +14,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class JdbcPostRepositoryImplTest {
     private final PostRepository postRepository = Mockito.mock(PostRepository.class);
@@ -90,5 +90,7 @@ public class JdbcPostRepositoryImplTest {
 
     @Test
     void deleteById() {
+        postService.deletePost(1L);
+        verify(postRepository, times(1)).deleteById(1L);
     }
 }
